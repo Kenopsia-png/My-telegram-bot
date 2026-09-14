@@ -1,23 +1,27 @@
+import os
 import asyncio
 import requests
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 
-# Вставьте ваши реальные ключи
-TELEGRAM_BOT_TOKEN = "8966437564:AAG4lEatYIGPTAqNMDtBxPUQz5QogGQKP3k"
-GEMINI_API_KEY = "AQ.Ab8RN6Jc0TsjUBDuk6LZaUVwNVFQNN-G2LlmEjrNg_ec2GkTtQ"
+TELEGRAM_BOT_TOKEN = os.getent("8966437564:AAG4lEatYIGPTAqNMDtBxPUQz5QogGQKP3k")
+GEMINI_API_KEY = os.getenv("AQ.Ab8RN6LFP-5sWiyg3DyurBdlwK54_qILEAyagFPeBzaf7jHPOw")
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
 
 def ask_gemini(prompt_text):
-    """Запрос к Gemini API с правильной авторизацией через заголовки"""
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={GEMINI_API_KEY}"
+    if not GEMINI_API_KEY:
+        return "Ошибка: Переменная GEMINI_API_KEY не найдена на сервере Render."
+
+    # Очищаем ключ от возможных лишних кавычек и пробелов
+    clean_key = GEMINI_API_KEY.strip().strip('"').strip("'")
+
+    # Использование актуального эндпоинта Gemini 3.6 Flash
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={clean_key}"
     
-    # Передаем ключ авторизации через спец-заголовок x-goog-api-key
     headers = {
-        "Content-Type": "application/json",
-        "x-goog-api-key": GEMINI_API_KEY
+        "Content-Type": "application/json"
     }
     
     data = {
@@ -33,13 +37,13 @@ def ask_gemini(prompt_text):
         try:
             return result['candidates'][0]['content']['parts'][0]['text']
         except (KeyError, IndexError):
-            return "Ответ от нейросети получен в некорректном формате."
+            return "Ответ получен в некорректном формате."
     else:
         return f"Ошибка API ({response.status_code}): {response.text}"
 
 @dp.message(Command("start"))
 async def start_cmd(message: types.Message):
-    await message.answer("Привет! Я твой ИИ-помощник.")
+    await message.answer("Привет! Я твой ИИ-помощник, запущенный 24/7.")
 
 @dp.message()
 async def handle_ai(message: types.Message):
@@ -49,7 +53,7 @@ async def handle_ai(message: types.Message):
         answer = await loop.run_in_executor(None, ask_gemini, message.text)
         await message.answer(answer)
     except Exception as e:
-        await message.answer(f"Произошла ошибка при отправке: {e}")
+        await message.answer(f"Произошла ошибка при обработке: {e}")
 
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
