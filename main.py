@@ -4,8 +4,8 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 
 # Вставьте ваши реальные ключи
-TELEGRAM_BOT_TOKEN = "8966437564:AAG4lEatYIGPTAqNMDtBxPUQz5QogGQKP3k
-GEMINI_API_KEY = "AQ.Ab8RN6JkK-gKjqrXl9tgOXlAlSNvGa0UQPGRIOy69ZUJKJfUVA
+TELEGRAM_BOT_TOKEN = "8966437564:AAG4lEatYIGPTAqNMDtBxPUQz5QogGQKP3k"
+GEMINI_API_KEY = "AQ.Ab8RN6Jc0TsjUBDuk6LZaUVwNVFQNN-G2LlmEjrNg_ec2GkTtQ"
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
