@@ -12,7 +12,7 @@ dp = Dispatcher()
 
 def ask_gemini(prompt_text):
     """Запрос к Gemini API с правильной авторизацией через заголовки"""
-    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+    url = "f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={GEMINI_API_KEY}"
     
     # Передаем ключ авторизации через спец-заголовок x-goog-api-key
     headers = {
