@@ -4,7 +4,7 @@ import requests
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 
-TELEGRAM_BOT_TOKEN = os.getent("8966437564:AAG4lEatYIGPTAqNMDtBxPUQz5QogGQKP3k")
+TELEGRAM_BOT_TOKEN = os.getenv("8966437564:AAG4lEatYIGPTAqNMDtBxPUQz5QogGQKP3k")
 GEMINI_API_KEY = os.getenv("AQ.Ab8RN6LgomsfAqLRNMsIKJuhwSqqL17sIt4RKq_NSB1yP5k4RA")
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
